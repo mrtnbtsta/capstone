@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:capstone_project/variables.dart';
 
 class Users extends StatefulWidget {
-  const Users({Key? key}) : super(key: key);
+  const Users({super.key});
 
   @override
   UsersState createState() => UsersState();

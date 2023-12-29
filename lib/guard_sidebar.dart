@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 var currentEnum = GuardSidebarEnum.logout;
 
 class GuardSidebar extends StatefulWidget {
-  const GuardSidebar({Key? key}) : super(key: key);
+  const GuardSidebar({super.key});
 
   @override
   State<GuardSidebar> createState() => _GuardSidebarState();

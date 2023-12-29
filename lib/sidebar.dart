@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:capstone_project/variables.dart';
 
 class Sidebar extends StatefulWidget {
-  const Sidebar({Key? key}) : super(key: key);
+  const Sidebar({super.key});
 
   @override
   State<Sidebar> createState() => _SidebarState();

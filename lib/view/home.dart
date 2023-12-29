@@ -353,27 +353,6 @@ class _HomeState extends State<Home>{
                                                   },
                                                 ),
                                               ),
-                                              // Container(
-                                              //   margin:
-                                              //       const EdgeInsets.all(8.0),
-                                              //   width: 150,
-                                              //   height: 150,
-                                              //   decoration: BoxDecoration(
-                                              //       borderRadius:
-                                              //           const BorderRadius
-                                              //               .all(
-                                              //               Radius.circular(
-                                              //                   10)),
-                                              //       image: DecorationImage(
-                                              //         fit: BoxFit.cover,
-                                              //         image: NetworkImage(
-                                              //           ImagesAPI
-                                              //               .getImagesUrl(data
-                                              //                   .image
-                                              //                   .toString()),
-                                              //         ),
-                                              //       )),
-                                              // ),
                                               Expanded(
                                                 child: Column(
                                                   mainAxisAlignment:
@@ -516,7 +495,7 @@ class _HomeState extends State<Home>{
                                                                       .warning,
                                                               title: "Oops...",
                                                               text:
-                                                                  "Sorry this is not post, you cannot delete it"));
+                                                                  "Sorry this is not your post, you cannot delete it"));
                                                     }
                                                   },
                                                   icon: const Icon(

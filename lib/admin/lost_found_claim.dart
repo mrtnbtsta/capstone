@@ -158,7 +158,7 @@ class _DashboardLostFoundState extends State<DashboardLostFound> {
               searchItem = p0;
             });
           },
-          suggestions: [...items.map((e) => e.lostItem.toString()).toList()],
+          suggestions: [...items.map((e) => e.lostItem.toString())],
           onSuggestionTap: (data) {
             Navigator.of(context).push(PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>

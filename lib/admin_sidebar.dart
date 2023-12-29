@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 var currentEnum = AdminSidebarEnum.emergency;
 
 class AdminSidebar extends StatefulWidget {
-  const AdminSidebar({Key? key}) : super(key: key);
+  const AdminSidebar({super.key});
 
   @override
   State<AdminSidebar> createState() => _SidebarState();
