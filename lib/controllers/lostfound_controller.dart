@@ -61,6 +61,7 @@ class LostFoundController extends GetxController {
                   type: ArtSweetAlertType.success,
                   title: "Success",
                   text: "Successfully posted"));
+          print('SUccess!!!!!!!!!');
           Timer(const Duration(seconds: 2), () {
             Navigator.of(context).pushNamed(RouteName.lostFoundNews);
             currentIndex = 3;

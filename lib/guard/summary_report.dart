@@ -1,4 +1,4 @@
-import 'package:capstone_project/controllers/summary_admin_controller.dart';
+import 'package:capstone_project/controllers/summary_controller.dart';
 import 'package:capstone_project/guard_sidebar.dart';
 import 'package:capstone_project/theme/colors.dart';
 import 'package:flutter/material.dart';

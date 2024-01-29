@@ -215,7 +215,7 @@ class DashboardHazardState extends State<DashboardHazard> {
                               softWrap: true,
                             ),
                             SizedBox(
-                              width: 300,
+                              width: 290,
                               child: Text(
                                 data.address.toString(),
                                 textAlign: TextAlign.justify,

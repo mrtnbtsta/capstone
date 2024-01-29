@@ -241,7 +241,7 @@ class _HomeState extends State<Home>{
                                                               FontWeight.bold,
                                                           fontSize: 18)),
                                                   SizedBox(
-                                                    width: 300,
+                                                    width: 290,
                                                     child: Text(
                                                         data.address.toString(),
                                                         style: const TextStyle(
@@ -520,21 +520,41 @@ class _HomeState extends State<Home>{
           shape: const CircleBorder(),
           isExtended: true,
           onPressed: () async {
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            UserController.insertAlert(
+            ArtDialogResponse response =
+                await ArtSweetAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
+                        confirmButtonColor:
+                            ColorTheme.primaryColor,
+                        title: "Alert",
+                        showCancelBtn: true,
+                        text: "Send an alert",
+                        confirmButtonText: "Confirm",
+                        type:
+                            ArtSweetAlertType.question));
+
+          
+            if (response == null) {
+              return;
+            }
+
+            if (response.isTapConfirmButton) {
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                   UserController.insertAlert(
                     pref.getInt("uid"),
                     MapFunctions.currentPosition!.latitude,
                     MapFunctions.currentPosition!.longitude)
-                .then((value) {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
+                    .then((value) {
+                    ArtSweetAlert.show(
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
                       type: ArtSweetAlertType.success,
                       title: "Success",
                       text: "Successfully sent the alert"));
-              // Future.delayed(const Duration(seconds: 1));
-              // Navigator.of(context).pop();
-            });
+                  });
+                
+            }
           },
           child: const Icon(EvaIcons.alert_triangle,
               color: ColorTheme.primaryColor),

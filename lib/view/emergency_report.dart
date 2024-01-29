@@ -433,25 +433,25 @@ class EmergencyReportState extends State<EmergencyReport> {
                                     wordSpacing: 0.5,
                                     fontSize: 14)),
                           ),
-                          Container(
-                            padding: const EdgeInsets.only(top: 2),
-                            child: Checkbox(
-                              value: selectedValue == 2,
-                              onChanged: (value) => setState(() {
-                                selectedValue = 2;
-                                emergency = "Typhoon";
-                                // print(emergency);
-                              }),
-                            ),
-                          ),
-                          const Expanded(
-                            child: Text("Typhoon",
-                                style: TextStyle(
-                                    color: Color.fromRGBO(26, 23, 44, 1),
-                                    letterSpacing: 0.5,
-                                    wordSpacing: 0.5,
-                                    fontSize: 14)),
-                          ),
+                          // Container(
+                          //   padding: const EdgeInsets.only(top: 2),
+                          //   child: Checkbox(
+                          //     value: selectedValue == 2,
+                          //     onChanged: (value) => setState(() {
+                          //       selectedValue = 2;
+                          //       emergency = "Typhoon";
+                          //       // print(emergency);
+                          //     }),
+                          //   ),
+                          // ),
+                          // const Expanded(
+                          //   child: Text("Typhoon",
+                          //       style: TextStyle(
+                          //           color: Color.fromRGBO(26, 23, 44, 1),
+                          //           letterSpacing: 0.5,
+                          //           wordSpacing: 0.5,
+                          //           fontSize: 14)),
+                          // ),
                         ],
                       ),
                       // TEXTBOX SECOND ROW
@@ -806,19 +806,41 @@ class EmergencyReportState extends State<EmergencyReport> {
           shape: const CircleBorder(),
           isExtended: true,
           onPressed: () async {
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            UserController.insertAlert(
+            ArtDialogResponse response =
+                await ArtSweetAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
+                        confirmButtonColor:
+                            ColorTheme.primaryColor,
+                        title: "Alert",
+                        showCancelBtn: true,
+                        text: "Send an alert",
+                        confirmButtonText: "Confirm",
+                        type:
+                            ArtSweetAlertType.question));
+
+          
+            if (response == null) {
+              return;
+            }
+
+            if (response.isTapConfirmButton) {
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                   UserController.insertAlert(
                     pref.getInt("uid"),
                     MapFunctions.currentPosition!.latitude,
                     MapFunctions.currentPosition!.longitude)
-                .then((value) {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
+                    .then((value) {
+                    ArtSweetAlert.show(
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
                       type: ArtSweetAlertType.success,
                       title: "Success",
                       text: "Successfully sent the alert"));
-            });
+                  });
+                
+            }
           },
           child: const Icon(EvaIcons.alert_triangle,
               color: ColorTheme.primaryColor),

@@ -9,6 +9,7 @@ import 'package:capstone_project/admin/emergency_report.dart';
 import 'package:capstone_project/admin/faq.dart';
 import 'package:capstone_project/admin/hazard_report.dart';
 import 'package:capstone_project/admin/lost_found_claim.dart';
+import 'package:capstone_project/admin/monthly_report.dart';
 import 'package:capstone_project/admin/post.dart';
 import 'package:capstone_project/admin/summary_report.dart';
 import 'package:capstone_project/admin/user_admin.dart';
@@ -32,6 +33,7 @@ import 'package:capstone_project/view/onboard.dart';
 import 'package:capstone_project/view/profile.dart';
 import 'package:capstone_project/view/register.dart';
 import 'package:capstone_project/view/settings.dart';
+import 'package:capstone_project/view/summary_report.dart';
 import 'package:capstone_project/view/users.dart';
 import 'package:flutter/material.dart';
 
@@ -72,6 +74,8 @@ class RouteName {
   static const accountPending = "Account-pending";
   static const summaryAdminReport = "Summary-report";
   static const summaryGuardReport = "Summary-guard-report";
+  static const summaryUserReport = "Summary-user-report";
+  static const monthlyReport = "Monthly-report";
 }
 
 class Routes {
@@ -123,6 +127,12 @@ class Routes {
         return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const Settings(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero);
+      case RouteName.summaryUserReport:
+        return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const SummaryUserReport(),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero);
       case RouteName.summaryGuardReport:
@@ -195,6 +205,12 @@ class Routes {
         return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const DashboardHazard(),
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero);
+      case RouteName.monthlyReport:
+        return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const MonthlyReport(),
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero);
       case RouteName.dashboardCrime:

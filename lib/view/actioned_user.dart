@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:io';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:capstone_project/admin/functions.dart';
@@ -126,6 +128,9 @@ class ActionedUserState extends State<ActionedUser> {
                     buildTextButton(currentEnum == ButtonEnum.resolvedReport ? true : false, 1, "Resolved Report")
                   ],
                 ),
+
+                const SizedBox(height: 10),
+                Center(child: buildTextButton(currentEnum == ButtonEnum.summaryReport ? true : false, 2, "Monthly Report")),
 
               const SizedBox(
                 height: 20,
@@ -460,8 +465,14 @@ class ActionedUserState extends State<ActionedUser> {
           break;
           case 1:
           currentEnumButton = ButtonEnum.resolvedReport;
+          //  Navigator.of(context).pushNamed(
+          //     RouteName.actionedUser,
+          // );
+          break;
+          case 2:
+          currentEnumButton = ButtonEnum.summaryReport;
            Navigator.of(context).pushNamed(
-              RouteName.actionedUser,
+              RouteName.summaryUserReport,
           );
           break;
         }

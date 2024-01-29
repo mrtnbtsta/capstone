@@ -73,7 +73,6 @@ class _DiscussionAdminState extends State<DiscussionAdmin> {
   @override
   void initState() {
     getAdminDiscussion();
-    // TODO: implement initState
     super.initState();
   }
 

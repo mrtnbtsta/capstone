@@ -21,10 +21,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:capstone_project/sidebar.dart';
-import 'package:appinio_video_player/appinio_video_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:capstone_project/theme/colors.dart';
+import 'package:appinio_video_player/appinio_video_player.dart';
+
 class LostFoundNewsFeed extends StatefulWidget {
   const LostFoundNewsFeed({super.key});
 
@@ -33,8 +34,6 @@ class LostFoundNewsFeed extends StatefulWidget {
 }
 
 class _LostFoundNewsFeedState extends State<LostFoundNewsFeed> {
-  late VideoPlayerController controller;
-  late CustomVideoPlayerController customController;
   final UserNotification userNotification = UserNotification();
   final ClaimController claimController = ClaimController();
 
@@ -69,19 +68,15 @@ class _LostFoundNewsFeedState extends State<LostFoundNewsFeed> {
     });
   }
 
+  late CachedVideoPlayerController controller;
+  late CustomVideoPlayerController customController;
+
   void fetchLostFoundVideo() {
     LostFound.fetchLostFoundVideo().then((value) {
       for (var result in value) {
         // if (result.type.toString() == "Video") {
-        controller = VideoPlayerController.networkUrl(Uri.parse(result.image))
-          ..initialize()
-          ..addListener(() {
-            setState(() {});
-          });
-
-        customController = CustomVideoPlayerController(
-            context: context, videoPlayerController: controller);
-
+        controller = CachedVideoPlayerController.network(Uri.parse(result.image).toString())..initialize()..addListener(() => setState((){}));
+        customController = CustomVideoPlayerController(context: context, videoPlayerController: controller);
         // controller.setLooping(true);
         controller.pause();
       }
@@ -313,7 +308,7 @@ class _LostFoundNewsFeedState extends State<LostFoundNewsFeed> {
                                                           FontWeight.bold,
                                                       fontSize: 18)),
                                               SizedBox(
-                                                width: 300,
+                                                width: 290,
                                                 child: Text(
                                                     data.address.toString(),
                                                     style: const TextStyle(
@@ -579,7 +574,7 @@ class _LostFoundNewsFeedState extends State<LostFoundNewsFeed> {
                                                               FontWeight.bold,
                                                           fontSize: 18)),
                                                   SizedBox(
-                                                    width: 300,
+                                                    width: 290,
                                                     child: Text(
                                                         data.address.toString(),
                                                         style: const TextStyle(
@@ -676,9 +671,7 @@ class _LostFoundNewsFeedState extends State<LostFoundNewsFeed> {
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
-                                                      child: CustomVideoPlayer(
-                                                          customVideoPlayerController:
-                                                              customController))
+                                                      child: CustomVideoPlayer(customVideoPlayerController: customController))
                                                 ],
                                               ),
                                             ))
@@ -704,19 +697,42 @@ class _LostFoundNewsFeedState extends State<LostFoundNewsFeed> {
           shape: const CircleBorder(),
           isExtended: true,
           onPressed: () async {
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            UserController.insertAlert(
+            ArtDialogResponse response =
+                await ArtSweetAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
+                        confirmButtonColor:
+                            ColorTheme.primaryColor,
+                        title: "Alert",
+                        showCancelBtn: true,
+                        text: "Send an alert",
+                        confirmButtonText: "Confirm",
+                        type:
+                            ArtSweetAlertType.question));
+
+          
+            // ignore: unnecessary_null_comparison
+            if (response == null) {
+              return;
+            }
+
+            if (response.isTapConfirmButton) {
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                   UserController.insertAlert(
                     pref.getInt("uid"),
                     MapFunctions.currentPosition!.latitude,
                     MapFunctions.currentPosition!.longitude)
-                .then((value) {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
+                    .then((value) {
+                    ArtSweetAlert.show(
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
                       type: ArtSweetAlertType.success,
                       title: "Success",
                       text: "Successfully sent the alert"));
-            });
+                  });
+                
+            }
           },
           child: const Icon(EvaIcons.alert_triangle,
               color: ColorTheme.primaryColor),

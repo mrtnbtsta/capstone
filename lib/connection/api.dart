@@ -49,8 +49,16 @@ class API {
   static const displayLostFoundSingleData =
       "$connection/data/display_lost_found_single_data.php";
   static const displayLostFoundAPI = "$connection/data/get_lost_found_data.php";
+  static const displayMonthlyReportEmergencyAPI = "$connection/data/display_monthly_report_emergency.php";
+  static const displayMonthlyReportHazardAPI = "$connection/data/display_monthly_report_hazard.php";
+  static const displayMonthlyReportCrimeAPI = "$connection/data/display_monthly_report_crime.php";
+  static const displayMonthlyEmergencyDataCountAPI = "$connection/data/display_monthly_report_emergency_data_count.php";
+  static const displayMonthlyHazardDataCountAPI = "$connection/data/display_monthly_report_hazard_data_count.php";
+  static const displayMonthlyCrimeDataCountAPI = "$connection/data/display_monthly_report_crime_data_count.php";
   static const displayGuardUserAPI = "$connection/data/display_guard_user.php";
   static const displayGuardEmergencyAPI1 = "$connection/data/display_guard_emergency1.php";
+  static const displayUserSummary = "$connection/data/display_bulletin_summary.php";
+  static const displayUserSummary1 = "$connection/data/display_bulletin_summary1.php";
   static const displayReportCommentDataAPI =
       "$connection/data/display_report_comment_data.php";
   static const displayChatAPI = "$connection/data/display_chat_data.php";

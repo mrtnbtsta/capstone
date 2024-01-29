@@ -1,30 +1,33 @@
 import 'dart:io';
 import 'package:capstone_project/admin/functions.dart';
-import 'package:capstone_project/admin_sidebar.dart';
+import 'package:capstone_project/models/summary_model.dart';
+import 'package:capstone_project/sidebar.dart';
 import 'package:capstone_project/controllers/alert_controller.dart';
 import 'package:capstone_project/controllers/report_controller.dart';
 import 'package:capstone_project/controllers/summary_controller.dart';
 import 'package:capstone_project/theme/colors.dart';
+import 'package:capstone_project/variables.dart';
+import 'package:capstone_project/view/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 
-class SummaryReport extends StatefulWidget {
-  const SummaryReport({ super.key });
+class SummaryUserReport extends StatefulWidget {
+  const SummaryUserReport({ super.key });
 
   @override
-  SummaryReportState createState() => SummaryReportState();
+  SummaryUserReportState createState() => SummaryUserReportState();
 }
 
-class SummaryReportState extends State<SummaryReport> {
+class SummaryUserReportState extends State<SummaryUserReport> {
 
   final Incident incidentController = Incident();
   final AlertController alertController = AlertController();
   
   late DateTime? startDate;
   late DateTime? endDate;
-
+  dynamic typeReport;
   List<String> months = [
   'January',
   'February',
@@ -40,11 +43,33 @@ class SummaryReportState extends State<SummaryReport> {
   'December'
 ];
 
+List<SummaryUserModel1> data1 = <SummaryUserModel1>[];
+
+@override
+  void initState() {
+    SummaryUserController.getAll().then((value){
+      for(var i = 0; i < value.length; i++){
+        setState(() {
+          typeReport = value[i].typeOfReport;
+        });
+      }
+    });
+
+    SummaryUserController.getAll1().then((value){
+      setState(() {
+        data1.addAll(value);
+      });
+    });
+
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const AdminSidebar(),
+      backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
+      drawer: const Sidebar(),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const ScrollPhysics(),
@@ -156,10 +181,22 @@ class SummaryReportState extends State<SummaryReport> {
                       ),
                     ],
                   ),
+
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    buildTextButton(currentEnum == ButtonEnum.bulletinBoard ? true : false, 0, "Bulletin Board"),
+                    buildTextButton(currentEnum == ButtonEnum.resolvedReport ? true : false, 1, "Resolved Report"),
+                  ],
+                ),
+
+                const SizedBox(height: 10),
+                Center(child: buildTextButton(currentEnum == ButtonEnum.summaryReport ? true : false, 2, "Monthly Report")),
               //spacing
               const SizedBox(height: 18,),
               //title
-              const Center(child:  Text("Summary Report", style: TextStyle(color: ColorTheme.secondaryColor, fontSize: 24, letterSpacing: 1.5, wordSpacing: 0.5))),
+              const Center(child:  Text("Summary Of Reporting", style: TextStyle(color: ColorTheme.secondaryColor, fontSize: 24, letterSpacing: 1.5, wordSpacing: 0.5))),
           
             
           
@@ -230,7 +267,7 @@ class SummaryReportState extends State<SummaryReport> {
 
 
   Widget displayDataWidget() =>  FutureBuilder(
-    future: SummaryController.getAll(),
+    future: SummaryUserController.getAll(),
     builder: (context, snapshot) {
       if(!snapshot.hasData){
         return Container();
@@ -240,10 +277,10 @@ class SummaryReportState extends State<SummaryReport> {
         return ListView.builder(
           shrinkWrap: true,
           itemCount: snapshot.data!.length,
+          physics: const ScrollPhysics(),
           itemBuilder: (context, index) {
             final data = snapshot.data![index];
-            final startDate = "${data.startDate.month}/${data.startDate.day}/${data.startDate.year}";
-            final endDate = "${data.endDate.month}/${data.endDate.day}/${data.endDate.year}";
+            var current = DateTime.now();
             return Padding(
               padding: const EdgeInsets.only(left: 8.0, top: 16.0),
               child: Column(
@@ -251,57 +288,39 @@ class SummaryReportState extends State<SummaryReport> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
               
-                  Text("${data.monthText} Monthly Report", style: const TextStyle(color: Colors.black87, letterSpacing: 1.5, wordSpacing: 0.5, fontSize: 24),),
+                  Text("${data.monthText} ${current.year}", style: const TextStyle(color: Colors.black87, letterSpacing: 1.5, wordSpacing: 0.5, fontSize: 24),),
+              
+                  
               
                   RichText(
                     text: TextSpan(
-                        text: "Start Date: ",
+                        text: "Types of Reports: ",
                         style: const TextStyle(
                             color: Colors.black87, fontSize: 17),
                         children: [
                       TextSpan(
-                          text: startDate.toString(),
+                          text: "${data.typeOfReport} Reports",
                           style: const TextStyle(
                               color: Colors.black,
                               letterSpacing: 1.5,
                               wordSpacing: 0.5,
                               fontSize: 16))
                   ])),
-              
+                          
                   RichText(
                     text: TextSpan(
-                        text: "End Date: ",
-                        style: const TextStyle(
-                            color: Colors.black87, fontSize: 17),
-                        children: [
-                      TextSpan(
-                          text: endDate.toString(),
-                          style: const TextStyle(
-                              color: Colors.black,
-                              letterSpacing: 1.5,
-                              wordSpacing: 0.5,
-                              fontSize: 16))
-                  ])),
-              
-                  RichText(
-                    text: TextSpan(
-                        text: "Total Report: ",
-                        style: const TextStyle(
-                            color: Colors.black87, fontSize: 17),
-                        children: [
-                      TextSpan(
-                          text: data.totalReport.toString(),
-                          style: const TextStyle(
-                              color: Colors.black,
-                              letterSpacing: 1.5,
-                              wordSpacing: 0.5,
-                              fontSize: 16))
-                  ])),
-                   Divider(
-                      color: const Color.fromRGBO(143, 143, 156, 1)
-                          .withOpacity(0.1),
-                      thickness: 2,
+                    text: "Types of ${typeReport.toString()}: ",
+                    style: const TextStyle(color: Colors.black87, fontSize: 17),
+                    children: [
+                      ...data1.map((e){
+                        return TextSpan(text: "${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17));
+                      })
+                    ]
+                    ),
                   ),
+
+                  const Divider(),
+
                 ],
               ),
             );
@@ -310,5 +329,39 @@ class SummaryReportState extends State<SummaryReport> {
       }
     },
   );
-
+  Widget buildTextButton(bool isSelected, int index, String text) => InkWell(
+    onTap: () {
+      setState((){
+        switch(index){
+          case 0:
+          currentEnumButton = ButtonEnum.bulletinBoard;
+           Navigator.of(context).pushNamed(
+              RouteName.bulletinBoard,
+          );
+          break;
+          case 1:
+          currentEnumButton = ButtonEnum.resolvedReport;
+           Navigator.of(context).pushNamed(
+              RouteName.actionedUser,
+          );
+          break;
+          case 2:
+          currentEnumButton = ButtonEnum.summaryReport;
+          //  Navigator.of(context).pushNamed(
+          //     RouteName.summaryUserReport,
+          // );
+          break;
+        }
+      });
+    },
+    child: Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        color: isSelected ? const Color.fromARGB(255, 247, 208, 91) : ColorTheme.primaryColor
+      ),
+      child: Text(text, style: const TextStyle(color: ColorTheme.accentColor, fontSize: 14, letterSpacing: 1.5, wordSpacing: 0.5),),
+    ),
+  );
 }
+

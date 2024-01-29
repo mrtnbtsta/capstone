@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 dynamic currentUserName;
 dynamic currentAdminUsername;
 dynamic currentGuardUsername;
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences pref = await SharedPreferences.getInstance();
   currentUserName = pref.getString("name");

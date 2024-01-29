@@ -14,7 +14,7 @@ final iconList = <IconData>[
   FontAwesome.searchengin_brand
 ];
 
-enum ButtonEnum {bulletinBoard, resolvedReport}
+enum ButtonEnum {bulletinBoard, resolvedReport, summaryReport}
 var currentEnumButton = ButtonEnum.bulletinBoard;
 
 enum SidebarEnum {

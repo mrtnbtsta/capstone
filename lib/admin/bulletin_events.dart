@@ -72,130 +72,146 @@ class _DashboardBulletinState extends State<DashboardBulletin> {
         drawer: const AdminSidebar(),
         backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
         body: SafeArea(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Builder(
-                      builder: (context) => IconButton(
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                        icon: Platform.isAndroid
-                            ? const Icon(EvaIcons.menu,
-                                color: ColorTheme.primaryColor)
-                            : const Icon(CupertinoIcons.bars,
-                                color: ColorTheme.primaryColor),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Builder(
+                        builder: (context) => IconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          icon: Platform.isAndroid
+                              ? const Icon(EvaIcons.menu,
+                                  color: ColorTheme.primaryColor)
+                              : const Icon(CupertinoIcons.bars,
+                                  color: ColorTheme.primaryColor),
+                        ),
                       ),
-                    ),
-                    // IconButton(
-                    //   onPressed: () => {},
-                    //   icon: const Icon(EvaIcons.bell,
-                    //       color: Color.fromRGBO(123, 97, 255, 1)),
-                    // )
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        decoration: const BoxDecoration(
-                            color: Color.fromRGBO(221, 221, 221, 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        child: DropdownButtonFormField(
-                            borderRadius: BorderRadius.circular(10),
-                            dropdownColor:
-                                const Color.fromRGBO(221, 221, 221, 1),
-                            isExpanded: false,
-                            decoration: const InputDecoration(
-                                prefixIcon: Icon(
-                                  Bootstrap.filter,
-                                  color: ColorTheme.secondaryColor,
-                                ),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.all(20)),
-                            hint: const Text("Filter"),
-                            value: dropdownFilter,
-                            onChanged: (value) {
-                              setState(() {
-                                dropdownFilter = value;
-                              });
-                              bulletinController
-                                  .filterBulletinData(value!)
-                                  .then((data) {
-                                setState(() {
-                                  bulletinController.dataModel =
-                                      data as RxList<BulletinModel>;
-                                });
-                              });
-                            },
-                            items: dropdownItemsFilter
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList()),
-                      ),
-                    ),
-                    SizedBox(
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(RouteName.addPost);
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            padding: const EdgeInsets.all(16),
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
+                      // IconButton(
+                      //   onPressed: () => {},
+                      //   icon: const Icon(EvaIcons.bell,
+                      //       color: Color.fromRGBO(123, 97, 255, 1)),
+                      // )
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          decoration: const BoxDecoration(
+                              color: Color.fromRGBO(221, 221, 221, 1),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: ColorTheme.primaryColor,
-                            ),
-                            child: const Text("ADD POST",
-                                style: TextStyle(
-                                    color: ColorTheme.accentColor,
-                                    letterSpacing: .5,
-                                    wordSpacing: 0.5,
-                                    fontSize: 16)),
-                          )),
-                    ),
+                                  BorderRadius.all(Radius.circular(10))),
+                          child: DropdownButtonFormField(
+                              borderRadius: BorderRadius.circular(10),
+                              dropdownColor:
+                                  const Color.fromRGBO(221, 221, 221, 1),
+                              isExpanded: false,
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(
+                                    Bootstrap.filter,
+                                    color: ColorTheme.secondaryColor,
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(20)),
+                              hint: const Text("Filter"),
+                              value: dropdownFilter,
+                              onChanged: (value) {
+                                setState(() {
+                                  dropdownFilter = value;
+                                });
+                                bulletinController
+                                    .filterBulletinData(value!)
+                                    .then((data) {
+                                  setState(() {
+                                    bulletinController.dataModel =
+                                        data as RxList<BulletinModel>;
+                                  });
+                                });
+                              },
+                              items: dropdownItemsFilter
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList()),
+                        ),
+                      ),
+                      SizedBox(
+                        child: TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushReplacementNamed(RouteName.addPost);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              padding: const EdgeInsets.all(16),
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: ColorTheme.primaryColor,
+                              ),
+                              child: const Text("ADD POST",
+                                  style: TextStyle(
+                                      color: ColorTheme.accentColor,
+                                      letterSpacing: .5,
+                                      wordSpacing: 0.5,
+                                      fontSize: 16)),
+                            )),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  if (dropdownItemsFilter
+                          .toString()
+                          .contains(dropdownFilter.toString()) &&
+                      bulletinController.dataModel.isEmpty) ...[
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 50),
+                          Text("${dropdownFilter.toString()} has no data",
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontSize: 40,
+                                  letterSpacing: 1.5,
+                                  wordSpacing: 0.5)),
+                        ],
+                      ),
+                    )
+                  ] else ...[
+                    buildBulletin1()
+                    // buildBulletin(),
                   ],
-                ),
-                const SizedBox(height: 5),
-                if (dropdownItemsFilter
-                        .toString()
-                        .contains(dropdownFilter.toString()) &&
-                    bulletinController.dataModel.isEmpty) ...[
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 50),
-                        Text("${dropdownFilter.toString()} has no data",
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 40,
-                                letterSpacing: 1.5,
-                                wordSpacing: 0.5)),
-                      ],
-                    ),
-                  )
-                ] else ...[
-                  buildBulletin1()
-                  // buildBulletin(),
-                ]
-              ]),
+
+                ]),
+          ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: TextButton(
+                      onPressed: () => Navigator.of(context).pushNamed(RouteName.monthlyReport),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: ColorTheme.primaryColor,
+                          borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        child: const Text("Post Monthly Report", style: TextStyle(color: ColorTheme.accentColor, fontSize: 19, letterSpacing: 1.5, wordSpacing: 0.5),),
+                      ),
+                  ),
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
             itemCount: iconList.length,
             tabBuilder: (index, isActive) {

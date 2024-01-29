@@ -5,7 +5,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:capstone_project/onboard_model.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:capstone_project/theme/colors.dart';
 class Onboard extends StatefulWidget {
   const Onboard({super.key});
 
@@ -78,15 +78,15 @@ class _OnboardState extends State<Onboard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // SizedBox(height: 20),
-                  Container(
-                        alignment: Alignment.centerLeft,
-                        width: 60,
-                        height: 60,
-                        child: Image.asset(
-                          "assets/images/Xev-Curity Logo.png",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+              Container(
+                alignment: Alignment.center,
+                width: 60,
+                height: 60,
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
                 const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -112,7 +112,7 @@ class _OnboardState extends State<Onboard> {
                 child: Stepper(
                   elevation: 0,
                   connectorColor: MaterialStateColor.resolveWith(
-                      (states) => const Color.fromRGBO(123, 97, 255, 1)),
+                      (states) => ColorTheme.secondaryColor),
                   connectorThickness: 2,
                   currentStep: currentIndex,
                   controlsBuilder: (context, details) {
@@ -164,7 +164,7 @@ class _OnboardState extends State<Onboard> {
                 count: 3,
                 effect: const WormEffect(
                     dotColor: Color.fromRGBO(26, 23, 44, 1),
-                    activeDotColor: Color.fromRGBO(123, 97, 255, 1),
+                    activeDotColor: ColorTheme.secondaryColor,
                     radius: 32)),
             const SizedBox(height: 20),
             Row(
@@ -200,8 +200,7 @@ class _OnboardState extends State<Onboard> {
                                   height: 2,
                                   decoration: BoxDecoration(
                                       color: currentIndex == i
-                                          ? const Color.fromRGBO(
-                                              123, 97, 255, 1)
+                                          ? ColorTheme.secondaryColor
                                           : Colors.transparent),
                                 ),
                               ],
@@ -233,7 +232,7 @@ class _OnboardState extends State<Onboard> {
                   child: Container(
                     width: MediaQuery.of(context).size.width / 3,
                     decoration: const BoxDecoration(
-                        color: Color.fromRGBO(123, 97, 255, 1),
+                        color: ColorTheme.primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     padding: const EdgeInsets.all(12),
                     margin: const EdgeInsets.only(right: 20),

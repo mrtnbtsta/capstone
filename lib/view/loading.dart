@@ -5,7 +5,7 @@ import 'package:capstone_project/view/routes.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:capstone_project/theme/colors.dart';
 class Loading extends StatefulWidget {
   const Loading({super.key});
 
@@ -88,15 +88,13 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
             //spacing
             const SizedBox(height: 40),
             //Logo
-            Container(
+              Container(
               alignment: Alignment.center,
-              width: 200,
-              height: 200,
-              child: Center(
-                child: Image.asset(
-                  "assets/images/Xev-Curity Logo.png",
-                  fit: BoxFit.cover,
-                ),
+              width: 90,
+              height: 90,
+              child: Image.asset(
+                "assets/images/logo.png",
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(height: 10),
@@ -117,7 +115,7 @@ class _LoadingState extends State<Loading> with TickerProviderStateMixin {
                 totalSteps: 100,
                 currentStep: percentageProgressValue.toInt(),
                 stepSize: 10,
-                selectedColor: const Color.fromRGBO(123, 97, 255, 1),
+                selectedColor: ColorTheme.primaryColor,
                 unselectedColor: const Color.fromRGBO(221, 221, 221, 1),
                 padding: 0,
                 width: 120,

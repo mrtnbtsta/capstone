@@ -267,7 +267,7 @@ class _SettingsState extends State<Settings> {
                SharedPreferences pref =
                         await SharedPreferences.getInstance();
                         int id = pref.getInt("uid")!.toInt();
-                        deleteAllComments(id, context);;
+                        deleteAllComments(id, context);
             case 4:
                  SharedPreferences pref =
                         await SharedPreferences.getInstance();

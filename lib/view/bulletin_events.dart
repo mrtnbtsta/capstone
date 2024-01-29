@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:art_sweetalert/art_sweetalert.dart';
@@ -167,10 +169,12 @@ class _BulletinEventsState extends State<BulletinEvents> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     buildTextButton(currentEnum == ButtonEnum.bulletinBoard ? true : false, 0, "Bulletin Board"),
-                    buildTextButton(currentEnum == ButtonEnum.resolvedReport ? true : false, 1, "Resolved Report")
+                    buildTextButton(currentEnum == ButtonEnum.resolvedReport ? true : false, 1, "Resolved Report"),
                   ],
                 ),
 
+                const SizedBox(height: 10),
+                Center(child: buildTextButton(currentEnum == ButtonEnum.summaryReport ? true : false, 2, "Monthly Report")),
                 const SizedBox(height: 20),
 
                 StreamBuilder<List<AllReports>>(
@@ -303,19 +307,41 @@ class _BulletinEventsState extends State<BulletinEvents> {
           shape: const CircleBorder(),
           isExtended: true,
           onPressed: () async {
-            SharedPreferences pref = await SharedPreferences.getInstance();
-            UserController.insertAlert(
+            ArtDialogResponse response =
+                await ArtSweetAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
+                        confirmButtonColor:
+                            ColorTheme.primaryColor,
+                        title: "Alert",
+                        showCancelBtn: true,
+                        text: "Send an alert",
+                        confirmButtonText: "Confirm",
+                        type:
+                            ArtSweetAlertType.question));
+
+          
+            if (response == null) {
+              return;
+            }
+
+            if (response.isTapConfirmButton) {
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                   UserController.insertAlert(
                     pref.getInt("uid"),
                     MapFunctions.currentPosition!.latitude,
                     MapFunctions.currentPosition!.longitude)
-                .then((value) {
-              ArtSweetAlert.show(
-                  context: context,
-                  artDialogArgs: ArtDialogArgs(
+                    .then((value) {
+                    ArtSweetAlert.show(
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
                       type: ArtSweetAlertType.success,
                       title: "Success",
                       text: "Successfully sent the alert"));
-            });
+                  });
+                
+            }
           },
           child: const Icon(EvaIcons.alert_triangle,
               color: ColorTheme.primaryColor),
@@ -382,15 +408,21 @@ class _BulletinEventsState extends State<BulletinEvents> {
       setState((){
         switch(index){
           case 0:
-          currentEnumButton = ButtonEnum.bulletinBoard;
-           Navigator.of(context).pushNamed(
-              RouteName.bulletinBoard,
-          );
+          // currentEnumButton = ButtonEnum.bulletinBoard;
+          //  Navigator.of(context).pushNamed(
+          //     RouteName.bulletinBoard,
+          // );
           break;
           case 1:
           currentEnumButton = ButtonEnum.resolvedReport;
            Navigator.of(context).pushNamed(
               RouteName.actionedUser,
+          );
+          break;
+          case 2:
+          currentEnumButton = ButtonEnum.summaryReport;
+           Navigator.of(context).pushNamed(
+              RouteName.summaryUserReport,
           );
           break;
         }

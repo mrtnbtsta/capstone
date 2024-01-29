@@ -39,28 +39,24 @@ class _LostFoundPostState extends State<LostFoundPost> {
   final picker = ImagePicker();
   File? attachFile;
   File? attachVideo;
-  String? type;
+  dynamic type;
 
   Future<void> uploadImage() async {
     var photo = await picker.pickImage(source: ImageSource.gallery);
 
     //if there is an image set the image to the imageFIle
-    photo != null
-        ? setState(() {
-            attachFile = File(photo.path);
-          })
-        : "";
+    if(photo != null){
+      setState(() =>  attachFile = File(photo.path));
+    }
   }
 
   Future<void> uploadVideo() async {
     var photo = await picker.pickVideo(source: ImageSource.gallery);
 
     //if there is an image set the image to the imageFIle
-    photo != null
-        ? setState(() {
-            attachVideo = File(photo.path);
-          })
-        : "";
+    if(photo != null){
+      setState(() =>  attachVideo = File(photo.path));
+    }
   }
 
   Future<void> getCurrentUserID() async {
@@ -374,6 +370,7 @@ class _LostFoundPostState extends State<LostFoundPost> {
                             onPressed: () {
                               setState(() {
                                 type = "Image";
+                                print('Type: $type');
                               });
                               uploadImage();
                             },
@@ -407,6 +404,7 @@ class _LostFoundPostState extends State<LostFoundPost> {
                             onPressed: () {
                               setState(() {
                                 type = "Video";
+                                print('Type: $type');
                               });
                               uploadVideo();
                             },

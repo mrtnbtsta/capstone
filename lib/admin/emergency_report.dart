@@ -205,7 +205,7 @@ class DashboardEmergencyState extends State<DashboardEmergency> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18)),
                             SizedBox(
-                              width: 300,
+                              width: 290,
                               child: Text(
                                 data.address.toString(),
                                 textAlign: TextAlign.justify,

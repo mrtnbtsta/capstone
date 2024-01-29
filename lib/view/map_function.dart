@@ -1,6 +1,5 @@
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 class MapFunctions {
   static final Location location = Location();
   static bool? serviceEnabled;
@@ -18,7 +17,6 @@ class MapFunctions {
         return;
       }
     }
-
     permissionGranted = await location.hasPermission();
     if (permissionGranted == PermissionStatus.granted) {
       permissionGranted = await location.requestPermission();

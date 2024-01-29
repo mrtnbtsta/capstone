@@ -168,6 +168,16 @@ class _SidebarState extends State<Sidebar> {
                     ),
                     listTileContents(Icons.logout, "LOGOUT", context,
                         currentEnum == SidebarEnum.logout ? true : false, 8),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8),
+                    //   child: Align(
+                    //     alignment: FractionalOffset.bottomCenter,
+                    //     child: TextButton(
+                    //       onPressed: () => Navigator.of(context).pushNamed(RouteName.summaryUserReport),
+                    //       child: const Text("Summary Report", style: TextStyle(color: ColorTheme.secondaryColor, fontSize: 16, letterSpacing: 1.5, wordSpacing: 0.5)),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 )
               ],
