@@ -220,19 +220,43 @@ class EmergencyController extends GetxController {
 Future<void> deleteAllReports(int id, BuildContext context) async {
   try {
     final response =
-        await http.delete(Uri.parse(API.deleteAllReportsAPIData(id)));
+        await http.get(Uri.parse(API.deleteAllReportsAPIData(id)));
 
     if (response.statusCode == 200) {
-         ArtSweetAlert.show(
-              context: context,
-              artDialogArgs: ArtDialogArgs(
-                  type: ArtSweetAlertType.success,
-                  title: "Success",
-                  text: "Successfully deleted"));
+         ArtDialogResponse response =
+                await ArtSweetAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
+                        confirmButtonColor:
+                            const Color.fromRGBO(
+                                123, 97, 255, 1),
+                        title: "Delete All Report",
+                        showCancelBtn: true,
+                        text: "Do you want to delete all your reports?",
+                        confirmButtonText: "Confirm",
+                        type:
+                            ArtSweetAlertType.question));
+
+          
+            if (response == null) {
+              return;
+            }
+
+            if (response.isTapConfirmButton) {
+                ArtSweetAlert.show(
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.success,
+                title: "Success",
+                text: "Successfully deleted"));
+                // Navigator.of(context).pop();
+                return;
+            }
       // return;
     }
   } catch (e) {
-    // if (kDebugMode) print(e.toString());
+    print(e.toString()) ;
   }
 }
 

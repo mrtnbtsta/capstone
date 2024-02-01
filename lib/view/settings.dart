@@ -250,31 +250,31 @@ class _SettingsState extends State<Settings> {
           IconData trailingIcon, int index) =>
       ListTile(
         onTap: () async {
-          switch (index) {
-            case 1:
-              Navigator.of(context).push(PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const EditProfile(),
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero));
-              break;
-            case 2:
-                SharedPreferences pref =
-                        await SharedPreferences.getInstance();
-                        int id = pref.getInt("uid")!.toInt();
-                        deleteAllReports(id, context);
-            case 3:
-               SharedPreferences pref =
-                        await SharedPreferences.getInstance();
-                        int id = pref.getInt("uid")!.toInt();
-                        deleteAllComments(id, context);
-            case 4:
-                 SharedPreferences pref =
-                        await SharedPreferences.getInstance();
-                        int id = pref.getInt("uid")!.toInt();
-                        UserAPI.updateUser(context, id);
-                        // removeName();
-          }
+            switch (index) {
+              case 1:
+                Navigator.of(context).push(PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const EditProfile(),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero));
+                break;
+              case 2:
+                      SharedPreferences pref =
+                    await SharedPreferences.getInstance();
+                    int id = pref.getInt("uid")!.toInt();
+                    deleteAllReports(id, context);
+              case 3:
+                      SharedPreferences pref =
+                    await SharedPreferences.getInstance();
+                    int id = pref.getInt("uid")!.toInt();
+                    deleteAllComments(id, context);
+              case 4:
+                      SharedPreferences pref =
+                    await SharedPreferences.getInstance();
+                    int id = pref.getInt("uid")!.toInt();
+                    UserAPI.updateUser(context, id);
+                          // removeName();
+            }
         },
         leading: Icon(leadingIcon,
             color: ColorTheme.primaryColor, size: 30),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:capstone_project/connection/api.dart';
@@ -53,18 +55,42 @@ class CommentController {
 Future<void> deleteAllComments(int id, BuildContext context) async {
   try {
     final response =
-        await http.delete(Uri.parse(API.deleteAllCommentAPIData(id)));
+        await http.get(Uri.parse(API.deleteAllCommentAPIData(id)));
 
     if (response.statusCode == 200) {
-      // ignore: use_build_context_synchronously
+        ArtDialogResponse response =
+                await ArtSweetAlert.show(
+                    barrierDismissible: false,
+                    context: context,
+                    artDialogArgs: ArtDialogArgs(
+                        confirmButtonColor:
+                            const Color.fromRGBO(
+                                123, 97, 255, 1),
+                        title: "Delete All Comments",
+                        showCancelBtn: true,
+                        text: "Do you want to delete all your comments?",
+                        confirmButtonText: "Confirm",
+                        type:
+                            ArtSweetAlertType.question));
+
+          
+            // ignore: unnecessary_null_comparison
+            if (response == null) {
+              return;
+            }
+
+            if (response.isTapConfirmButton) {
                 ArtSweetAlert.show(
-              context: context,
-              artDialogArgs: ArtDialogArgs(
-                  type: ArtSweetAlertType.success,
-                  title: "Success",
-                  text: "Successfully deleted"));
+                context: context,
+                artDialogArgs: ArtDialogArgs(
+                type: ArtSweetAlertType.success,
+                title: "Success",
+                text: "Successfully deleted"));
+                // Navigator.of(context).pop();
+                return;
+            }
     }
   } catch (e) {
-    //
+    
   }
 }

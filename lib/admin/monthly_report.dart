@@ -18,11 +18,25 @@ class MonthlyReport extends StatefulWidget {
   MonthlyReportState createState() => MonthlyReportState();
 }
 
+
+
 class MonthlyReportState extends State<MonthlyReport> {
+
+  bool isEditable = true;
 
   final Incident incidentController = Incident();
   final AlertController alertController = AlertController();
-  
+  //emergency
+  final typeOfReportsController = TextEditingController();
+  final typeOfEmergencyController = TextEditingController();
+
+  //hazard
+  final typeOfReportsController1 = TextEditingController();
+  final typeOfEmergencyController1 = TextEditingController();
+
+  //crime
+  final typeOfReportsController2 = TextEditingController();
+  final typeOfEmergencyController2 = TextEditingController();
   late DateTime? startDate;
   late DateTime? endDate;
   List<String> months = [
@@ -48,6 +62,17 @@ List<MonthlyModel1> dataCrime = [];
 
 @override
   void initState() {
+
+    //emergency
+    typeOfReportsController.text = "Type of Reports: ";
+    typeOfEmergencyController.text = "Types of Emergency: ";
+    //hazard
+    typeOfReportsController1.text = "Type of Reports: ";
+    typeOfEmergencyController1.text = "Types of Emergency: ";
+    //crime
+    typeOfReportsController2.text = "Type of Reports: ";
+    typeOfEmergencyController2.text = "Types of Emergency: ";
+
     MonthlyController.getAllEmergencyDataCount().then((value){
       setState(() {
         dataEmergency.addAll(value);
@@ -84,6 +109,7 @@ List<MonthlyModel1> dataCrime = [];
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       drawer: const AdminSidebar(),
       body: SafeArea(
@@ -225,34 +251,85 @@ List<MonthlyModel1> dataCrime = [];
                               Center(
                                 child: Text("${data.monthText} ${DateTime.now().year.toString()}", style: const TextStyle(color: Colors.black87, fontSize: 24, letterSpacing: 1.5, wordSpacing: 0.5),),
                               ),
-                              RichText(
-                                text: TextSpan(
-                                    text: "Types of Reports: ",
-                                    style: const TextStyle(
-                                        color: Colors.black87, fontSize: 17),
-                                    children: [
-                                  TextSpan(
-                                      text: "${data.typeOfReport} Report",
+
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 150,
+                                      child: TextFormField(
+                                        controller: typeOfReportsController,
+                                        readOnly: isEditable,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none
+                                            ),                        
+                                      ),
+                                    ),
+                                    Text("${data.typeOfReport} Report",
                                       style: const TextStyle(
                                           color: Colors.black,
                                           letterSpacing: 1.5,
                                           wordSpacing: 0.5,
-                                          fontSize: 16))
-                              ])),
-
-                              RichText(
-                                text: TextSpan(
-                                text: "Types of Emergency: ",
-                                style: const TextStyle(color: Colors.black87, fontSize: 17),
-                                children: [
-                                  ...dataEmergency.map((e){
-                                    return TextSpan(text: "${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17));
-                                  })
-                                ]
+                                          fontSize: 18))
+                                  ],
                                 ),
                               ),
+
+                              // RichText(
+                              //   text: TextSpan(
+                              //       text: "Types of Reports: ",
+                              //       style: const TextStyle(
+                              //           color: Colors.black87, fontSize: 17),
+                              //       children: [
+                              //     TextSpan(
+                              //         text: "${data.typeOfReport} Report",
+                              //         style: const TextStyle(
+                              //             color: Colors.black,
+                              //             letterSpacing: 1.5,
+                              //             wordSpacing: 0.5,
+                              //             fontSize: 16))
+                              // ])),
+
+                               FittedBox(
+                                fit: BoxFit.contain,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 170,
+                                      child: TextFormField(
+                                        controller: typeOfEmergencyController,
+                                        readOnly: isEditable,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none
+                                            ),                        
+                                      ),
+                                    ),
+                                    ...dataEmergency.map((e){
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 2.0),
+                                      child: Text("${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17)),
+                                    );
+                                  }),
+                                  ],
+                                ),
+                              ),
+
+                              // RichText(
+                              //   text: TextSpan(
+                              //   text: "Types of Emergency: ",
+                              //   style: const TextStyle(color: Colors.black87, fontSize: 17),
+                              //   children: [
+                              //     ...dataEmergency.map((e){
+                              //       return TextSpan(text: "${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17));
+                              //     }),
+                              //   ]
+                              //   ),
+                              // ),
                               
-                              const Divider(),
+                            
 
                               FutureBuilder(
                                 future: MonthlyController.getAllHazard(),
@@ -265,39 +342,89 @@ List<MonthlyModel1> dataCrime = [];
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          RichText(
-                                            text: TextSpan(
-                                                text: "Types of Reports: ",
-                                                style: const TextStyle(
-                                                    color: Colors.black87, fontSize: 17),
-                                                children: [
-                                              TextSpan(
-                                                  text: "$hazardType Report",
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      letterSpacing: 1.5,
-                                                      wordSpacing: 0.5,
-                                                      fontSize: 16))
-                                          ])),
+                                          // RichText(
+                                          //   text: TextSpan(
+                                          //       text: "Types of Reports: ",
+                                          //       style: const TextStyle(
+                                          //           color: Colors.black87, fontSize: 17),
+                                          //       children: [
+                                          //     TextSpan(
+                                          //         text: "$hazardType Report",
+                                          //         style: const TextStyle(
+                                          //             color: Colors.black,
+                                          //             letterSpacing: 1.5,
+                                          //             wordSpacing: 0.5,
+                                          //             fontSize: 16))
+                                          // ])),
 
-                                          RichText(
-                                            text: TextSpan(
-                                                text: "Types of Emergency: ",
-                                                style: const TextStyle(
-                                                    color: Colors.black87, fontSize: 17),
-                                                children: [
-                                              ...dataHazard.map((e){
-                                                return TextSpan(text: "${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17));
-                                              })
-                                          ])),
+                                      FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 150,
+                                              child: TextFormField(
+                                                controller: typeOfReportsController1,
+                                                readOnly: isEditable,
+                                                    decoration: const InputDecoration(
+                                                      border: InputBorder.none
+                                                    ),                        
+                                              ),
+                                            ),
+                                            Text("$hazardType Report",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  letterSpacing: 1.5,
+                                                  wordSpacing: 0.5,
+                                                  fontSize: 18))
+                                          ],
+                                        ),
+                                      ),
 
+                                      
+                               FittedBox(
+                                fit: BoxFit.contain,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 170,
+                                      child: TextFormField(
+                                        controller: typeOfEmergencyController,
+                                        readOnly: isEditable,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none
+                                            ),                        
+                                      ),
+                                    ),
+                                    ...dataHazard.map((e){
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 2.0),
+                                      child: Text("${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17)),
+                                    );
+                                  }),
+                                  ],
+                                ),
+                              ),
+
+                                          // RichText(
+                                          //   text: TextSpan(
+                                          //       text: "Types of Emergency: ",
+                                          //       style: const TextStyle(
+                                          //           color: Colors.black87, fontSize: 17),
+                                          //       children: [
+                                          //     ...dataHazard.map((e){
+                                          //       return TextSpan(text: "${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17));
+                                          //     })
+                                          // ])),
+                                          const Divider(),
                                         ],
                                       );
                                   }
                                 },
                               ),
 
-                               const Divider(),
 
                               FutureBuilder(
                                 future: MonthlyController.getAllCrime(),
@@ -310,31 +437,80 @@ List<MonthlyModel1> dataCrime = [];
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          RichText(
-                                            text: TextSpan(
-                                                text: "Types of Reports: ",
-                                                style: const TextStyle(
-                                                    color: Colors.black87, fontSize: 17),
-                                                children: [
-                                              TextSpan(
-                                                  text: "$crimeType Report",
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      letterSpacing: 1.5,
-                                                      wordSpacing: 0.5,
-                                                      fontSize: 16))
-                                          ])),
+                                          FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 150,
+                                              child: TextFormField(
+                                                controller: typeOfReportsController2,
+                                                readOnly: isEditable,
+                                                    decoration: const InputDecoration(
+                                                      border: InputBorder.none
+                                                    ),                        
+                                              ),
+                                            ),
+                                            Text("$hazardType Report",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  letterSpacing: 1.5,
+                                                  wordSpacing: 0.5,
+                                                  fontSize: 18))
+                                          ],
+                                        ),
+                                      ),
+                                          // RichText(
+                                          //   text: TextSpan(
+                                          //       text: "Types of Reports: ",
+                                          //       style: const TextStyle(
+                                          //           color: Colors.black87, fontSize: 17),
+                                          //       children: [
+                                          //     TextSpan(
+                                          //         text: "$crimeType Report",
+                                          //         style: const TextStyle(
+                                          //             color: Colors.black,
+                                          //             letterSpacing: 1.5,
+                                          //             wordSpacing: 0.5,
+                                          //             fontSize: 16))
+                                          // ])),
 
-                                          RichText(
-                                            text: TextSpan(
-                                                text: "Types of Emergency: ",
-                                                style: const TextStyle(
-                                                    color: Colors.black87, fontSize: 17),
-                                                children: [
-                                              ...dataCrime.map((e){
-                                                return TextSpan(text: "${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17));
-                                              })
-                                          ])),
+                                          // RichText(
+                                          //   text: TextSpan(
+                                          //       text: "Types of Emergency: ",
+                                          //       style: const TextStyle(
+                                          //           color: Colors.black87, fontSize: 17),
+                                          //       children: [
+                                          //     ...dataCrime.map((e){
+                                          //       return TextSpan(text: "${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17));
+                                          //     })
+                                          // ])),
+
+                                           FittedBox(
+                                fit: BoxFit.contain,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 170,
+                                      child: TextFormField(
+                                        controller: typeOfEmergencyController2,
+                                        readOnly: isEditable,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none
+                                            ),                        
+                                      ),
+                                    ),
+                                    ...dataCrime.map((e){
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 2.0),
+                                      child: Text("${e.count.toString()} ${e.typeOfReport.toString() }, ", style: const TextStyle(color: Colors.black87, fontSize: 17)),
+                                    );
+                                  }),
+                                  ],
+                                ),
+                              ),
 
                                         ],
                                       );
@@ -355,6 +531,23 @@ List<MonthlyModel1> dataCrime = [];
           ),
         ),
       ),
+       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: TextButton(
+                      onPressed: (){
+                        setState(() {
+                          isEditable = !isEditable;
+                          print(isEditable);
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: ColorTheme.primaryColor,
+                          borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        child: const Text("Post", style: TextStyle(color: ColorTheme.accentColor, fontSize: 19, letterSpacing: 1.5, wordSpacing: 0.5),),
+                      ),
+                  ),
     );
   }
 
